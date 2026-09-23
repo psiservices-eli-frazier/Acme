@@ -15,7 +15,7 @@ import { ProductList } from './pages/products/ProductList';
 import { ProductView } from './pages/products/ProductView';
 
 /**
- * Every screen is behind a sign-in, as in BrandX -- there is no signed-out view of
+ * Every screen is behind a sign-in, as in Acme -- there is no signed-out view of
  * anything except the login page itself.
  */
 function RequireAuth() {

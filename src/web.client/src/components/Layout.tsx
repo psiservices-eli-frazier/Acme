@@ -5,10 +5,10 @@ import { useAuth } from '../auth/AuthContext';
 import { Alerts } from './Flash';
 import { IconCustomer, IconOrder, IconProduct } from './Icons';
 
-/** Keeps the `BrandX · <page>` title convention from the Thymeleaf head fragment. */
+/** Keeps the `Acme · <page>` title convention from the Thymeleaf head fragment. */
 export function usePageTitle(title: string): void {
   useEffect(() => {
-    document.title = `BrandX · ${title}`;
+    document.title = `Acme · ${title}`;
   }, [title]);
 }
 
@@ -21,7 +21,7 @@ function TopBar({ active }: { active: NavSection }) {
     <header className="topbar">
       <div className="container topbar-inner">
         <Link className="brand" to="/">
-          Brand<span>X</span>
+          Acme
         </Link>
 
         {/*
@@ -61,7 +61,7 @@ function TopBar({ active }: { active: NavSection }) {
 function Footer() {
   return (
     <footer className="footer">
-      <div className="container">BrandX · ASP.NET Core 10 · React 19</div>
+      <div className="container">Acme · ASP.NET Core 10 · React 19</div>
     </footer>
   );
 }

@@ -2,7 +2,7 @@
 
   <!--
     Shared build settings. Deliberately minimal: no analyzer package, no style
-    enforcement, no TreatWarningsAsErrors. BrandX states that choice explicitly
+    enforcement, no TreatWarningsAsErrors. Acme states that choice explicitly
     ("No linter or static-analysis config exists in this repo, by choice") and the
     port keeps it.
   -->

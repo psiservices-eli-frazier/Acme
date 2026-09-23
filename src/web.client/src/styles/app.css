@@ -1,5 +1,5 @@
 /*
- * BrandX stylesheet.
+ * Acme stylesheet.
  *
  * Hand-written and local rather than a CDN framework: no external request means the
  * app renders identically offline and there is no third-party version to track while
@@ -31,9 +31,9 @@
     --customer-ink: #0f8a7a;
     --customer-bg: #e1f5f1;
 
-    /* The rest of the palette. In BrandX these were scattered through the file as bare
+    /* The rest of the palette. In Acme these were scattered through the file as bare
        hex values; the colours are unchanged, they just have names now. */
-    --brand-mark: #8fa6ff;          /* the "X" in the wordmark, on the dark bar */
+    --brand-mark: #8fa6ff;          /* the "e" in the wordmark, on the dark bar */
     --topbar-ink: #c3c9d6;          /* muted text and nav links on the dark bar */
     --topbar-chip-ink: #dfe3ea;     /* the role chip's label */
     --table-head: #f0f2f6;          /* table header and the order total row */

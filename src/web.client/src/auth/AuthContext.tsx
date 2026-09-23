@@ -43,7 +43,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // used to post this sign-in is already stale.
       invalidateCsrfToken();
 
-      queryClient.clear();
+      // Drop every other cached response -- it belongs to whoever was signed in
+      // before -- but leave the `me` query itself alone. `clear()` would destroy the
+      // query object this hook's own `useQuery(['me'])` is actively observing, and a
+      // fresh one built afterward by `setQueryData` is not picked up by that already-
+      // mounted observer, so the UI would keep reading the stale signed-out value
+      // forever. Updating the existing query in place is what the live observer sees.
+      queryClient.removeQueries({ predicate: (query) => query.queryKey[0] !== 'me' });
       queryClient.setQueryData(['me'], signedIn);
     },
     [queryClient],
@@ -52,7 +58,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signOut = useCallback(async () => {
     await authApi.logout();
     invalidateCsrfToken();
-    queryClient.clear();
+    queryClient.removeQueries({ predicate: (query) => query.queryKey[0] !== 'me' });
     queryClient.setQueryData(['me'], null);
   }, [queryClient]);
 

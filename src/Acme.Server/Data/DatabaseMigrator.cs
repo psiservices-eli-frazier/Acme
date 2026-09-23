@@ -7,7 +7,7 @@ namespace Acme.Server.Data;
 /// <summary>
 /// Applies the outstanding DbUp scripts for the configured engine.
 ///
-/// BrandX had no migration story at all -- Hibernate's <c>ddl-auto</c> generated the
+/// Acme had no migration story at all -- Hibernate's <c>ddl-auto</c> generated the
 /// schema in dev and the production profiles were set to <c>validate</c> with a comment
 /// saying it was time to introduce Flyway. This is that missing piece.
 /// </summary>

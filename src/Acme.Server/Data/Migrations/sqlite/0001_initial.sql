@@ -1,4 +1,4 @@
--- BrandX schema, SQLite dialect.
+-- Acme schema, SQLite dialect.
 --
 -- SQLite is the zero-install dev/demo default, standing in for the H2 in-memory
 -- database the Java app used. Notes specific to this engine:

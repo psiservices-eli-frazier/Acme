@@ -31,7 +31,7 @@ public sealed class ForbiddenException(string message = "Not permitted") : Excep
 /// The requested sort column is not on the allow-list. Becomes a 400 keyed to
 /// <c>sort</c>.
 ///
-/// BrandX had no allow-list at all -- the value went straight into the JPA query, so an
+/// Acme had no allow-list at all -- the value went straight into the JPA query, so an
 /// unknown property was a 500 and a dotted one traversed a relation.
 /// </summary>
 public sealed class InvalidSortException(string property, IEnumerable<string> allowed)

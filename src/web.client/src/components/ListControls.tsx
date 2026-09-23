@@ -7,7 +7,7 @@ import { IconSearch } from './Icons';
 /**
  * List state read straight out of the query string.
  *
- * It lives in the URL rather than in component state, which is the property BrandX
+ * It lives in the URL rather than in component state, which is the property Acme
  * had and is worth keeping: a filtered, sorted page is a link you can share, bookmark
  * and reload.
  */

@@ -11,7 +11,7 @@ namespace Acme.Server.Seed;
 /// Accounts exist so role checks have something to resolve against: there is no screen,
 /// endpoint or service for managing them. Provisioning a first account outside
 /// development is handled by the <c>--create-admin</c> startup command instead -- the
-/// gap BrandX flagged as unsolved.
+/// gap Acme flagged as unsolved.
 /// </summary>
 public sealed class DevUserSeeder(
     IDbConnectionFactory connections,

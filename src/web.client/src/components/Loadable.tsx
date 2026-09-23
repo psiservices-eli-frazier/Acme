@@ -6,7 +6,7 @@ import { ApiError } from '../api/client';
 import { EmptyState, Panel } from './Layout';
 
 /**
- * Turns the server's error contract into the three screens BrandX kept separate:
+ * Turns the server's error contract into the three screens Acme kept separate:
  *
  *   401 -> sign in
  *   403 -> access denied, which is deliberately not the not-found screen, so a

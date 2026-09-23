@@ -113,7 +113,7 @@ if (databaseOptions.MigrateOnStartup || args.Contains("--migrate"))
     app.Services.GetRequiredService<DatabaseMigrator>().Run();
 }
 
-// Closes the gap BrandX flagged as unsolved: outside development there was no way to
+// Closes the gap Acme flagged as unsolved: outside development there was no way to
 // create a first account at all.
 if (args.Contains("--create-admin"))
 {

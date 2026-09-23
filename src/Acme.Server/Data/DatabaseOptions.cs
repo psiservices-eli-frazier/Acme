@@ -3,7 +3,7 @@ namespace Acme.Server.Data;
 /// <summary>
 /// Which engine to talk to and how to reach it. Bound from the <c>Database</c> section
 /// of configuration, so a deployment can switch engines without a rebuild -- the same
-/// property BrandX got from <c>DB_URL</c> plus a Maven profile, minus the build step.
+/// property Acme got from <c>DB_URL</c> plus a Maven profile, minus the build step.
 /// </summary>
 public sealed class DatabaseOptions
 {

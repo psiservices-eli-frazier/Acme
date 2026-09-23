@@ -3,7 +3,7 @@ namespace Acme.Server.Domain;
 /// <summary>
 /// Order lifecycle state. Persisted as the upper-case name ("NEW", "PAID", ...) to
 /// match the string form Hibernate's <c>EnumType.STRING</c> wrote, so this app can be
-/// pointed at an existing BrandX database without a data migration.
+/// pointed at an existing Acme database without a data migration.
 /// </summary>
 public enum OrderStatus
 {

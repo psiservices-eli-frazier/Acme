@@ -5,7 +5,7 @@ namespace Acme.Server.Domain;
 ///
 /// Note there are no stock rules anywhere in this application: <see cref="StockQuantity"/>
 /// is a plain manually-edited number. Nothing decrements it when an order is placed,
-/// reserves it, or checks availability. That is inherited from BrandX deliberately --
+/// reserves it, or checks availability. That is inherited from Acme deliberately --
 /// the requirements do not exist yet, and inventing them during a port would be
 /// inventing business rules.
 /// </summary>

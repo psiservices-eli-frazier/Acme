@@ -1,4 +1,4 @@
--- BrandX schema, MySQL dialect.
+-- Acme schema, MySQL dialect.
 --
 -- InnoDB throughout, because the delete guards and the order/line relationship rely
 -- on real foreign keys. DATETIME(6) rather than DATETIME so the timestamps keep the

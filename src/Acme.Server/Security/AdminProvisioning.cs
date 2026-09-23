@@ -8,7 +8,7 @@ namespace Acme.Server.Security;
 /// <summary>
 /// <c>dotnet run -- --create-admin &lt;username&gt;</c>.
 ///
-/// BrandX's own notes called out that provisioning a first account outside development
+/// Acme's own notes called out that provisioning a first account outside development
 /// was unsolved: the only accounts anywhere came from the dev seeder, and there is no
 /// screen or endpoint for user management. This is the missing front door, and nothing
 /// more than that -- it is not the beginning of a user-management feature.

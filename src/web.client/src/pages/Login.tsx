@@ -41,7 +41,7 @@ export function Login() {
     <div className="auth-body">
       <div className="auth-card">
         <div className="auth-brand">
-          Brand<span>X</span>
+          Acme
         </div>
         <p className="auth-lede">Sign in to manage products, orders and customers.</p>
 

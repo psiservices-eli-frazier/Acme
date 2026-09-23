@@ -2,7 +2,7 @@ namespace Acme.Server.Data;
 
 /// <summary>
 /// A resolved page request. Pages are zero-based and the default size is 10, matching
-/// BrandX's <c>@PageableDefault(size = 10)</c> -- the query-string contract is identical
+/// Acme's <c>@PageableDefault(size = 10)</c> -- the query-string contract is identical
 /// so the SPA's URL state works the same way the Thymeleaf links did.
 /// </summary>
 public sealed record PageRequest(int Page, int Size, string SortProperty, bool Descending)

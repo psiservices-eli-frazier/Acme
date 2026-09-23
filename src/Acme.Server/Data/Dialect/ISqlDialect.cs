@@ -6,7 +6,7 @@ namespace Acme.Server.Data.Dialect;
 /// <summary>
 /// The one place in the application that knows which database engine is in use.
 ///
-/// BrandX guarded this carefully -- "no Java code and no mapping annotation names a
+/// Acme guarded this carefully -- "no Java code and no mapping annotation names a
 /// specific database" -- by leaning on Hibernate to infer a dialect from the live
 /// connection. Insight.Database is SQL-first, so there is nothing to infer from and the
 /// differences have to be named somewhere. They are named here, and nowhere else:

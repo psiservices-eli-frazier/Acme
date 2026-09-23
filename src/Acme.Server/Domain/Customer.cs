@@ -11,7 +11,7 @@ namespace Acme.Server.Domain;
 /// useful (see <c>Contracts/AddressDto</c>).
 ///
 /// There is deliberately no <c>Orders</c> collection: code that needs a customer's orders
-/// goes through the order repository, the same as in BrandX.
+/// goes through the order repository, the same as in Acme.
 /// </summary>
 public class Customer
 {

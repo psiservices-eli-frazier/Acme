@@ -10,7 +10,7 @@ namespace Acme.Server.Security;
 /// Verifies credentials and builds the cookie principal.
 ///
 /// Hashing uses ASP.NET Core's <see cref="PasswordHasher{TUser}"/>. Its format carries
-/// its own version marker, which gives the property BrandX got from Spring's
+/// its own version marker, which gives the property Acme got from Spring's
 /// <c>{bcrypt}</c>-prefixed delegating encoder: changing algorithm later is a data
 /// migration, not a forced password reset for everyone.
 /// </summary>

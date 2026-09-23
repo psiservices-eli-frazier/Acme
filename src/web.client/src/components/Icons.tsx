@@ -1,5 +1,5 @@
 /**
- * The hand-drawn icon set, ported path-for-path from BrandX's
+ * The hand-drawn icon set, ported path-for-path from Acme's
  * `fragments/layout.html`.
  *
  * One outline style throughout (24x24, ~1.75 stroke, round caps and joins,

@@ -26,7 +26,7 @@ export function newLine(): EditableLine {
  * JSON array -- but two behaviours from it are kept on purpose:
  *
  *   * the table is hidden and replaced by a prompt when there are no rows;
- *   * nothing is computed here. There was no client-side total in BrandX and there is
+ *   * nothing is computed here. There was no client-side total in Acme and there is
  *     none now: the unit price is decided server-side when the line is first created,
  *     so the browser does not know what a row is worth until the server says.
  */

@@ -3,7 +3,7 @@ namespace Acme.Server.Data;
 /// <summary>
 /// The set of columns a list screen may be sorted by, and the default.
 ///
-/// BrandX has no such allow-list: <c>sort</c> went straight into the JPA query, so
+/// Acme has no such allow-list: <c>sort</c> went straight into the JPA query, so
 /// <c>?sort=bogus</c> was a 500 and <c>?sort=customer.email</c> quietly traversed a
 /// relation. The effective whitelist was just the column links the templates happened
 /// to render. Those exact columns are encoded here, and anything else is rejected.

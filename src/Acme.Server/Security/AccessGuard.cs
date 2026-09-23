@@ -17,7 +17,7 @@ public static class Policies
 /// The authorization check the services call.
 ///
 /// This sits at the service layer, not on the endpoints, and that placement is the
-/// point. BrandX put <c>@PreAuthorize</c> on the service because that is the boundary a
+/// point. Acme put <c>@PreAuthorize</c> on the service because that is the boundary a
 /// second endpoint, a background job or a future API would also cross; the
 /// <c>sec:authorize</c> attributes in its templates only hid buttons. The same split
 /// holds here: the endpoints require authentication, the React components hide controls,

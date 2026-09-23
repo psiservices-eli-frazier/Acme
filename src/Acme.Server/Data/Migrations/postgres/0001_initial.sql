@@ -1,4 +1,4 @@
--- BrandX schema, PostgreSQL dialect.
+-- Acme schema, PostgreSQL dialect.
 --
 -- `orders` is not a reserved word in PostgreSQL, so it needs no quoting -- but note
 -- that `user` is, which is why the accounts table is `app_users` in every dialect.

@@ -6,7 +6,7 @@ namespace Acme.Server.Api;
 /// <summary>
 /// Maps the domain's refusals onto HTTP.
 ///
-/// BrandX split error handling three ways on purpose, and the split is preserved here:
+/// Acme split error handling three ways on purpose, and the split is preserved here:
 ///
 ///   * "this does not exist" -> 404, which the client renders as its Not found page;
 ///   * a business-rule refusal -> back on the screen the user was already on, either

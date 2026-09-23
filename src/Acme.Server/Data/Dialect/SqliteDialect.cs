@@ -7,7 +7,7 @@ namespace Acme.Server.Data.Dialect;
 
 /// <summary>
 /// SQLite -- the zero-install dev and demo default, standing in for the H2 in-memory
-/// database BrandX used. H2 is a Java database with no ADO.NET driver, so it could not
+/// database Acme used. H2 is a Java database with no ADO.NET driver, so it could not
 /// come along; SQLite keeps the property H2 was chosen for, that the app runs with
 /// nothing installed.
 ///

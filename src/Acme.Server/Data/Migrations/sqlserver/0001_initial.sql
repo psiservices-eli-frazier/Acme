@@ -1,4 +1,4 @@
--- BrandX schema, SQL Server dialect.
+-- Acme schema, SQL Server dialect.
 --
 -- NVARCHAR throughout (the Java columns are Unicode-capable), DATETIME2 for the
 -- timestamps, BIT for the booleans.
