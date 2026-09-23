@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <RootNamespace>Acme.Server</RootNamespace>
+    <UserSecretsId>acme-server</UserSecretsId>
+
+    <!--
+      ASP0029: [ValidatableType] ships in .NET 10 behind an "evaluation purposes only"
+      diagnostic. It is the framework's own nested and collection validation, and the
+      closest analogue to the @Valid cascade the Java forms relied on, so it is used
+      deliberately. Suppressed once here rather than at each call site. Revisit when
+      the API stabilises.
+    -->
+    <NoWarn>$(NoWarn);ASP0029</NoWarn>
+  </PropertyGroup>
+
+  <!--
+    Migration scripts ship inside the assembly, so a deployed binary carries the schema
+    it expects. The default logical name is RootNamespace + path, which is what
+    DatabaseMigrator filters on:
+        Acme.Server.Data.Migrations.{dialect}.{script}.sql
+  -->
+  <ItemGroup>
+    <EmbeddedResource Include="Data\Migrations\**\*.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="dbup-core" Version="6.1.1" />
+    <PackageReference Include="dbup-mysql" Version="6.1.0" />
+    <PackageReference Include="dbup-postgresql" Version="7.0.1" />
+    <PackageReference Include="dbup-sqlite" Version="6.0.4" />
+    <PackageReference Include="dbup-sqlserver" Version="7.2.0" />
+    <PackageReference Include="Insight.Database" Version="8.0.6" />
+    <PackageReference Include="Insight.Database.Providers.MySqlConnector" Version="8.0.6" />
+    <PackageReference Include="Insight.Database.Providers.PostgreSQL" Version="8.0.6" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.1.0" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.12" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
+  </ItemGroup>
+
+</Project>

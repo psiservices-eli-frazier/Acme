@@ -1,0 +1,23 @@
+<Project>
+
+  <!--
+    Shared build settings. Deliberately minimal: no analyzer package, no style
+    enforcement, no TreatWarningsAsErrors. BrandX states that choice explicitly
+    ("No linter or static-analysis config exists in this repo, by choice") and the
+    port keeps it.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <!--
+      Money is decimal and dates are formatted by the client, so the server never
+      depends on the host's culture. Invariant mode also keeps SQLite's ISO-8601
+      timestamp round-trip independent of the machine's regional settings.
+    -->
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+
+</Project>

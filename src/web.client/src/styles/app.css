@@ -1,0 +1,745 @@
+/*
+ * BrandX stylesheet.
+ *
+ * Hand-written and local rather than a CDN framework: no external request means the
+ * app renders identically offline and there is no third-party version to track while
+ * the requirements are still moving.
+ */
+
+:root {
+    --ink: #1c2230;
+    --ink-soft: #5a6478;
+    --line: #dfe3ea;
+    --bg: #f6f7f9;
+    --panel: #ffffff;
+    --accent: #2f4fd8;
+    --accent-dark: #2740b5;
+    --ok-bg: #e7f6ec;
+    --ok-ink: #1c6b38;
+    --bad-bg: #fdeceb;
+    --bad-ink: #a12a22;
+    --radius: 7px;
+
+    /* One fixed hue per entity, reused for its badge everywhere: dashboard tile, page
+       heading and (unbadged, inheriting via currentColor) the nav icon. Order reuses
+       the brand accent rather than a fourth hue, since orders already are the
+       "primary" action (dashboard's default New button, brand-colored nav highlight). */
+    --product-ink: #6d4fd8;
+    --product-bg: #efe9fd;
+    --order-ink: var(--accent);
+    --order-bg: #e8eeff;
+    --customer-ink: #0f8a7a;
+    --customer-bg: #e1f5f1;
+
+    /* The rest of the palette. In BrandX these were scattered through the file as bare
+       hex values; the colours are unchanged, they just have names now. */
+    --brand-mark: #8fa6ff;          /* the "X" in the wordmark, on the dark bar */
+    --topbar-ink: #c3c9d6;          /* muted text and nav links on the dark bar */
+    --topbar-chip-ink: #dfe3ea;     /* the role chip's label */
+    --table-head: #f0f2f6;          /* table header and the order total row */
+    --row-hover: #fafbfc;
+    --surface-muted: #eceff4;       /* quiet-button hover, inactive pill, code chips */
+    --control-line: #c5cbd6;        /* input and button borders */
+    --ok-line: #b6e0c4;
+    --bad-line: #f0c3bf;
+    --danger-line: #e3b5b1;         /* danger button border, lighter than --bad-ink */
+
+    /* Order status pills. NEW, PAID, DELIVERED and CANCELLED reuse colours already
+       defined above; only SHIPPED needs its own amber. */
+    --status-new-line: #bfcdf7;
+    --shipped-bg: #fff4e0;
+    --shipped-ink: #8a5a10;
+    --shipped-line: #f0d8a8;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ---------- top bar ---------- */
+
+.topbar {
+    background: var(--ink);
+    color: #fff;
+}
+
+.topbar-inner {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    height: 56px;
+}
+
+.brand {
+    color: #fff;
+    text-decoration: none;
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+}
+
+.brand span {
+    color: var(--brand-mark);
+}
+
+.mainnav {
+    display: flex;
+    gap: 6px;
+}
+
+.mainnav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--topbar-ink);
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: var(--radius);
+    font-weight: 500;
+}
+
+.mainnav .icon {
+    width: 16px;
+    height: 16px;
+}
+
+.mainnav a:hover {
+    background: rgba(255, 255, 255, 0.09);
+    color: #fff;
+}
+
+.mainnav a.on {
+    background: rgba(255, 255, 255, 0.16);
+    color: #fff;
+}
+
+/* Signed-in identity, pushed to the far right of the bar. */
+.topbar-user {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.who {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--topbar-ink);
+    white-space: nowrap;
+}
+
+.who-name {
+    font-weight: 600;
+    color: #fff;
+}
+
+.who-role {
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 1px 7px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.14);
+    color: var(--topbar-chip-ink);
+}
+
+/* Reads as a quiet control against the dark bar rather than a white button. */
+.btn-logout {
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.28);
+    color: var(--topbar-ink);
+}
+
+.btn-logout:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.45);
+    color: #fff;
+}
+
+/* ---------- page scaffolding ---------- */
+
+main.container {
+    padding-top: 26px;
+    padding-bottom: 48px;
+}
+
+.page-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.page-head h1 {
+    margin: 0;
+    font-size: 25px;
+    letter-spacing: -0.3px;
+}
+
+.page-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.crumb {
+    color: var(--ink-soft);
+    font-size: 13px;
+    margin: 0 0 4px;
+}
+
+.crumb a {
+    color: var(--ink-soft);
+}
+
+.panel {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 18px;
+}
+
+.panel h2 {
+    margin: 0 0 14px;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--ink-soft);
+}
+
+.footer {
+    border-top: 1px solid var(--line);
+    padding: 18px 0;
+    color: var(--ink-soft);
+    font-size: 13px;
+}
+
+/* ---------- dashboard tiles ---------- */
+
+.tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 8px;
+}
+
+.tile {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.tile:hover {
+    border-color: var(--accent);
+}
+
+.tile-icon {
+    margin-bottom: 12px;
+}
+
+.tile-label {
+    color: var(--ink-soft);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.tile-value {
+    font-size: 34px;
+    font-weight: 600;
+    letter-spacing: -1px;
+    margin-top: 6px;
+}
+
+/* ---------- icons & badges ----------
+   One outline icon set (see fragments/layout.html), plain and colored by context
+   almost everywhere, wrapped in a tinted `.icon-badge` square next to page titles and
+   dashboard tiles so a product/order/customer screen is recognizable by badge color
+   alone. Badge shape and size stay identical across entities — only the hue and
+   glyph change — so the three read as one family rather than three clashing styles.
+*/
+
+.icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.icon-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+
+.icon-badge .icon {
+    width: 22px;
+    height: 22px;
+}
+
+.icon-badge-product {
+    background: var(--product-bg);
+    color: var(--product-ink);
+}
+
+.icon-badge-order {
+    background: var(--order-bg);
+    color: var(--order-ink);
+}
+
+.icon-badge-customer {
+    background: var(--customer-bg);
+    color: var(--customer-ink);
+}
+
+/* ---------- tables ---------- */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+th, td {
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: middle;
+}
+
+thead th {
+    background: var(--table-head);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--ink-soft);
+    white-space: nowrap;
+}
+
+thead th a {
+    color: var(--ink-soft);
+    text-decoration: none;
+}
+
+thead th a:hover {
+    color: var(--accent);
+}
+
+tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+tbody tr:hover {
+    background: var(--row-hover);
+}
+
+td.num, th.num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+td.actions {
+    text-align: right;
+    white-space: nowrap;
+}
+
+td.actions form {
+    display: inline;
+}
+
+.total-row td {
+    font-weight: 600;
+    background: var(--table-head);
+}
+
+/* ---------- definition lists ---------- */
+
+.detail {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 10px 18px;
+    margin: 0;
+}
+
+.detail dt {
+    color: var(--ink-soft);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.detail dd {
+    margin: 0;
+}
+
+/* ---------- forms ---------- */
+
+.field {
+    margin-bottom: 16px;
+    max-width: 560px;
+}
+
+.field label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.field .hint {
+    color: var(--ink-soft);
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+input[type=text],
+input[type=email],
+input[type=number],
+input[type=search],
+select,
+textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--control-line);
+    border-radius: var(--radius);
+    font: inherit;
+    background: #fff;
+    color: var(--ink);
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: 2px solid rgba(47, 79, 216, 0.35);
+    outline-offset: 1px;
+    border-color: var(--accent);
+}
+
+textarea {
+    min-height: 84px;
+    resize: vertical;
+}
+
+.field-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.field-row .field {
+    flex: 1 1 220px;
+    max-width: none;
+}
+
+.check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.check input {
+    width: auto;
+}
+
+.field-error {
+    color: var(--bad-ink);
+    font-size: 13px;
+    margin: 5px 0 0;
+}
+
+.has-error input,
+.has-error select,
+.has-error textarea {
+    border-color: var(--bad-ink);
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+}
+
+.search {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    max-width: 560px;
+}
+
+/* ---------- buttons ---------- */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 14px;
+    border: 1px solid var(--control-line);
+    border-radius: var(--radius);
+    background: #fff;
+    color: var(--ink);
+    font: inherit;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.btn:hover {
+    border-color: var(--ink-soft);
+}
+
+.btn-primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: var(--accent-dark);
+    border-color: var(--accent-dark);
+}
+
+.btn-danger {
+    color: var(--bad-ink);
+    border-color: var(--danger-line);
+}
+
+.btn-danger:hover {
+    background: var(--bad-bg);
+    border-color: var(--bad-ink);
+}
+
+.btn-small {
+    padding: 4px 10px;
+    font-size: 13px;
+    gap: 5px;
+}
+
+.btn-small .icon {
+    width: 13px;
+    height: 13px;
+}
+
+.btn-quiet {
+    border-color: transparent;
+    background: transparent;
+    color: var(--ink-soft);
+}
+
+.btn-quiet:hover {
+    background: var(--surface-muted);
+    border-color: transparent;
+}
+
+/* ---------- alerts, pills, misc ---------- */
+
+.alert {
+    max-width: 1100px;
+    margin: 18px auto 0;
+    padding: 11px 16px;
+    border-radius: var(--radius);
+    font-weight: 500;
+}
+
+.alert-ok {
+    background: var(--ok-bg);
+    color: var(--ok-ink);
+    border: 1px solid var(--ok-line);
+}
+
+.alert-bad {
+    background: var(--bad-bg);
+    color: var(--bad-ink);
+    border: 1px solid var(--bad-line);
+}
+
+.pill {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: 11px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    border: 1px solid transparent;
+}
+
+.pill-on {
+    background: var(--ok-bg);
+    color: var(--ok-ink);
+    border-color: var(--ok-line);
+}
+
+.pill-off {
+    background: var(--surface-muted);
+    color: var(--ink-soft);
+    border-color: var(--line);
+}
+
+.status-NEW {
+    background: var(--order-bg);
+    color: var(--accent-dark);
+    border-color: var(--status-new-line);
+}
+
+.status-PAID {
+    background: var(--ok-bg);
+    color: var(--ok-ink);
+    border-color: var(--ok-line);
+}
+
+.status-SHIPPED {
+    background: var(--shipped-bg);
+    color: var(--shipped-ink);
+    border-color: var(--shipped-line);
+}
+
+.status-DELIVERED {
+    background: var(--surface-muted);
+    color: var(--ink-soft);
+    border-color: var(--line);
+}
+
+.status-CANCELLED {
+    background: var(--bad-bg);
+    color: var(--bad-ink);
+    border-color: var(--bad-line);
+}
+
+.empty {
+    background: var(--panel);
+    border: 1px dashed var(--line);
+    border-radius: var(--radius);
+    padding: 34px;
+    text-align: center;
+    color: var(--ink-soft);
+}
+
+.pager {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 16px;
+}
+
+.pager-state {
+    color: var(--ink-soft);
+    font-size: 13px;
+}
+
+.muted {
+    color: var(--ink-soft);
+}
+
+a {
+    color: var(--accent);
+}
+
+/* ---------- sign-in screen ----------
+   The one page with no topbar and no container, so it centres its own card rather than
+   inheriting the standard page scaffolding.
+*/
+
+.auth-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 24px;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 380px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 32px;
+}
+
+.auth-brand {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+}
+
+.auth-brand span {
+    color: var(--accent);
+}
+
+.auth-lede {
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin: 4px 0 24px;
+}
+
+/* The shared .alert centres itself in a 1100px column; inside the card it just fills it. */
+.auth-alert {
+    max-width: none;
+    margin: 0 0 18px;
+    font-size: 14px;
+}
+
+.auth-card .field {
+    max-width: none;
+}
+
+.auth-card input[type=password] {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--control-line);
+    border-radius: var(--radius);
+    font: inherit;
+    background: #fff;
+    color: var(--ink);
+}
+
+.auth-submit {
+    width: 100%;
+    justify-content: center;
+    margin-top: 8px;
+}
+
+.auth-hint {
+    margin: 22px 0 0;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    color: var(--ink-soft);
+    font-size: 12.5px;
+    line-height: 1.6;
+}
+
+.auth-hint code {
+    background: var(--surface-muted);
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-size: 12px;
+}

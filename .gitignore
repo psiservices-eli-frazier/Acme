@@ -1,0 +1,21 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+
+# Local database files (SQLite dev default)
+*.db
+*.db-shm
+*.db-wal
+
+# Node / Vite
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Logs
+*.log
+npm-debug.log*
