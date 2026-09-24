@@ -30,7 +30,7 @@ dotnet run --project src/Acme.Server
 npm --prefix src/web.client run dev        # http://localhost:5173
 
 # Tests
-dotnet test                                # 55 integration tests over a temp SQLite file
+dotnet test                                # 56 integration tests over a temp SQLite file
 npm --prefix src/web.client run test       # Vitest
 
 # Production-shaped: build the SPA into the server's wwwroot, then run the server alone
@@ -136,6 +136,26 @@ relation. Only the columns the list screens actually render are accepted.
 the assembly and applied by DbUp. BrandX had no migration story at all. Adding a column
 means adding a script to all four folders.
 
+**`GET /api/health` is the one route that does not require a signed-in session.**
+`Api/HealthEndpoints.cs` checks the database through `Data/DatabaseHealthCheck.cs`, which
+opens a connection via the same `IDbConnectionFactory` every repository uses and runs
+`SELECT 1` — so it fails exactly when a real request would, on whichever of the four
+dialects is configured. It has to answer to a load balancer or orchestrator with no
+cookie, which is why it is deliberately outside the "every screen requires a signed-in
+user" rule above.
+
+**Logging is Serilog, configured entirely in code in `Program.cs`**, not through the
+`Logging` section in `appsettings*.json` (there isn't one — it was removed when Serilog
+took over, since it no longer did anything). Console output is unchanged; in addition,
+two rolling daily files land under `Logs/` (gitignored): `access-*.log`, one line per
+HTTP request from `UseSerilogRequestLogging`, filtered to just that source; and
+`errors-*.log`, everything at Warning or above app-wide, including
+`ApiExceptionHandler`'s unhandled-exception logging. The bootstrap logger at the top of
+`Program.cs` exists only to catch a failure before the real one is built. **`UseSerilog()`
+is called with the eager, no-callback overload, not the lazy `configureLogger` one** — the
+lazy overload wraps a `ReloadableLogger` that freezes on its first host `Build()` call,
+and `WebApplicationFactory` (see `AcmeApiFactory`) builds the host twice per test run.
+
 ## Deliberate differences from BrandX
 
 Everything else is meant to match. These do not:
@@ -156,6 +176,8 @@ Everything else is meant to match. These do not:
   validation emits; the client looks them up case-insensitively via `ApiError.fieldError`.
 - The login screen's hint text is corrected — BrandX advertised `admin`/`staff` as
   usernames, but those are the passwords.
+- A `/api/health` endpoint and file-based access/error logging (Serilog) — BrandX had
+  neither. See the health-check and logging notes under Architecture above.
 
 ## Testing
 
