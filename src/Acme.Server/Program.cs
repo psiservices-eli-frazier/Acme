@@ -153,7 +153,7 @@ try
 
     var databaseOptions = app.Services.GetRequiredService<IOptions<DatabaseOptions>>().Value;
 
-    if (databaseOptions.MigrateOnStartup || args.Contains("--migrate"))
+    if (databaseOptions.MigrateOnStartup || args.Contains("--migrate") || args.Contains("--seed"))
     {
         app.Services.GetRequiredService<DatabaseMigrator>().Run();
     }
@@ -166,11 +166,18 @@ try
         return;
     }
 
-    if (app.Configuration.GetValue<bool>("Seed:Enabled"))
+    if (app.Configuration.GetValue<bool>("Seed:Enabled") || args.Contains("--seed"))
     {
         using var scope = app.Services.CreateScope();
         await scope.ServiceProvider.GetRequiredService<DevUserSeeder>().RunAsync(CancellationToken.None);
         await scope.ServiceProvider.GetRequiredService<DevDataSeeder>().RunAsync(CancellationToken.None);
+    }
+
+    // `--seed` is for baking a ready-to-run demo database into a build artifact (see the
+    // CI publish job) -- it should migrate and seed, then exit, never start Kestrel.
+    if (args.Contains("--seed"))
+    {
+        return;
     }
 
     // ---- pipeline -------------------------------------------------------------------

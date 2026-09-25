@@ -119,6 +119,10 @@ jobs:
           --configuration Release
           --output ./publish
 
+      - name: Seed demo database
+        working-directory: ./publish
+        run: dotnet Acme.Server.dll --seed
+
       - name: Upload publish artifact
         uses: actions/upload-artifact@v4
         with:

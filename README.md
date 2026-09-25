@@ -66,6 +66,34 @@ Outside development there's no seeded account, so create the first admin user wi
 dotnet run --project src/Acme.Server -- --create-admin <username>
 ```
 
+## Running a CI build artifact
+
+Every CI run (`.github/workflows/ci.yml`) uploads a `publish`-job artifact named
+`acme-server-<commit-sha>` — a `dotnet publish` of the server with the built SPA baked
+into its `wwwroot/`, and the database already migrated and seeded with the same demo
+accounts and data as local dev (the publish job runs `dotnet Acme.Server.dll --seed`,
+which applies migrations and runs the seeders, then exits without starting the server).
+Download it from the run's Actions page and unzip it, then just:
+
+```powershell
+cd <extracted folder>
+dotnet Acme.Server.dll
+```
+
+Open the URL it prints (typically `http://localhost:5000`) and sign in with one of the
+seeded accounts (see the table above).
+
+The CI runner is `ubuntu-latest`, so the publish output's native apphost
+(`Acme.Server`, no extension) is a Linux binary and won't run directly on Windows —
+invoke it through `dotnet Acme.Server.dll` instead, which works on whichever platform
+has a matching .NET 10 runtime installed. (A Windows-built artifact, with a real
+`.exe`, would need its own `runs-on: windows-latest` publish job.)
+
+This bakes the same throwaway demo credentials from local dev into every build
+artifact, which is fine for a proof-of-concept demo app but worth remembering if this
+pipeline ever starts publishing artifacts somewhere less contained than a private
+repo's Actions run.
+
 ## Health check
 
 `GET /api/health` confirms the app can reach its configured database and returns JSON,
