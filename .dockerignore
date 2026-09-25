@@ -1,0 +1,15 @@
+**/bin/
+**/obj/
+**/node_modules/
+**/dist/
+**/dist-ssr/
+**/.vs/
+**/Logs/
+*.db
+*.db-shm
+*.db-wal
+*.log
+.git/
+.github/
+tests/
+TestResults/

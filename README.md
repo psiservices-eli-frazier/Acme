@@ -94,6 +94,85 @@ artifact, which is fine for a proof-of-concept demo app but worth remembering if
 pipeline ever starts publishing artifacts somewhere less contained than a private
 repo's Actions run.
 
+## Deploying with Docker
+
+A multi-stage `Dockerfile` at the repo root builds the SPA, publishes the server with
+the built SPA already in `wwwroot/`, and runs it framework-dependent (no SDK) in the
+final image — the same single-process shape as "Running it as a single,
+production-shaped process" above, just containerized.
+
+```powershell
+docker build -t acme-server .
+docker run -p 10000:10000 `
+  -e Database__Provider=Postgres `
+  -e "Database__ConnectionString=Host=...;Database=...;Username=...;Password=...;SSL Mode=Require" `
+  -e Database__MigrateOnStartup=true `
+  acme-server
+```
+
+Notes:
+
+- **No SQLite in containers.** The image's filesystem is ephemeral on most PaaS hosts
+  (Render included), so a SQLite file would vanish on every restart or redeploy — set
+  `Database__Provider=Postgres` (or `MySql`/`SqlServer`) with a real connection string.
+  This is exactly the dialect seam described under Architecture in [CLAUDE.md](CLAUDE.md);
+  no code change is needed to switch, only configuration.
+- **Migrations run automatically.** `Database__MigrateOnStartup=true` runs the
+  already-embedded migration scripts for whichever dialect is configured, every time the
+  container starts — safe to leave on permanently, since DbUp tracks what's already
+  applied and only runs what's new.
+- **Demo data is opt-in**, not baked into the image the way the CI artifact's `acme.db`
+  is: add `Seed__Enabled=true` if you want the same throwaway accounts and sample
+  products/customers/orders as local dev.
+- **The listen port comes from `$PORT`** (default `10000`, matching Render's own
+  Docker default) — the entrypoint substitutes it into `ASPNETCORE_URLS` at container
+  start, so no rebuild is needed to change it.
+
+## Continuous deployment (CI → GHCR → Render)
+
+On every push to `main` that passes both test jobs, the `docker` job in
+`.github/workflows/ci.yml`:
+
+1. Builds the image from the root `Dockerfile`.
+2. Pushes it to GitHub Container Registry as `ghcr.io/<owner>/acme:latest` and
+   `:<commit-sha>`, authenticating with the workflow's built-in token — no registry
+   secrets to create or manage.
+3. Curls a Render *deploy hook* URL (once it exists as the `RENDER_DEPLOY_HOOK_URL` repo
+   secret — see the one-time setup below) so Render pulls the new image and restarts.
+
+Until that secret is added, step 3 is skipped rather than failing the run — the image
+still gets built and pushed on every push to `main` regardless.
+
+### One-time Render setup
+
+1. Push this workflow to `main` once so the first image exists in GHCR.
+2. Make that GHCR package pullable by Render: on GitHub, go to your profile/org →
+   **Packages** → `acme` → package **Settings** → change visibility to **Public**.
+   (Public is consistent with this app's own seeded demo credentials already being
+   public in this README; keep it private instead and give Render a registry
+   credential if that matters for your case.)
+3. Create a free Render account (no credit card required).
+4. **New → Web Service → Deploy an existing image from a registry**, image URL
+   `ghcr.io/<owner>/acme:latest` (all lowercase — check the exact name the `docker`
+   job's "Set lowercase image name" step logged, if unsure).
+5. In the service's **Environment** tab, set `Database__Provider=Postgres`,
+   `Database__ConnectionString=<from a free Postgres like Neon or Supabase>`,
+   `Database__MigrateOnStartup=true`, and optionally `Seed__Enabled=true`.
+6. Set **Health Check Path** to `/api/health` — the one route that doesn't require a
+   signed-in session (see below), so Render can poll it without credentials.
+7. Leave the service port at Render's default (`10000`) — it matches this image's
+   `$PORT` default, so nothing to change there.
+8. Deploy once manually to create the service, then open its **Settings → Deploy
+   Hook** and copy the URL.
+9. Back on GitHub: repo **Settings → Secrets and variables → Actions → New repository
+   secret**, name it `RENDER_DEPLOY_HOOK_URL`, and paste that URL in.
+
+From then on, every push to `main` that passes CI rebuilds the image, pushes it to
+GHCR, and triggers Render to redeploy — no manual steps after that. The free web-service
+tier also spins the container down after inactivity and back up on the next request
+(cold start), and can be restarted on demand from the Render dashboard without waiting
+on a rebuild.
+
 ## Health check
 
 `GET /api/health` confirms the app can reach its configured database and returns JSON,
