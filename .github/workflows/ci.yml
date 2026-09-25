@@ -167,8 +167,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      # No-ops until RENDER_DEPLOY_HOOK_URL is added as a repo secret (see README) —
-      # the image still gets built and pushed either way.
-      - name: Trigger Render deploy
-        if: ${{ secrets.RENDER_DEPLOY_HOOK_URL != '' }}
-        run: curl -fsS -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
+      # Disabled — erroring until RENDER_DEPLOY_HOOK_URL is set up as a repo secret
+      # (see README's "One-time Render setup"). Re-enable once that secret exists.
+      # - name: Trigger Render deploy
+      #   run: curl -fsS -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
